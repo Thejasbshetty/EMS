@@ -60,4 +60,33 @@ router.delete("/deleteuser/:id",(req,res)=>{
     });
 });
 
+// individual user detail
+
+router.get("/induser/:id",(req,res)=>{
+    const id=req.params.id;
+    connection.query("SELECT * FROM users WHERE id=?",[id],(error,result)=>{
+        if(error){
+            res.status(422).json({error:"User not found"});
+        }
+        else{
+            res.status(201).json(result);
+        }
+    });
+});
+
+// user update
+
+router.patch("/updateuser/:id",(req,res)=>{
+    const id=req.params.id;
+    const {name,email,age,mobile,work,address,description}=req.body;
+    connection.query("UPDATE users SET name=?,email=?,age=?,mobile=?,work=?,address=?,description=? WHERE id=?",[name,email,age,mobile,work,address,description,id],(error,result)=>{
+        if(error){
+            res.status(422).json({error:"User not found"});
+        }
+        else{
+            res.status(201).json(result);
+        }
+    });
+});
+
 module.exports = router;
