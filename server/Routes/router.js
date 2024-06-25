@@ -46,4 +46,18 @@ router.get("/getusers",(req,res)=>{
     });
 });
 
+// user delete
+
+router.delete("/deleteuser/:id",(req,res)=>{
+    const id=req.params.id;
+    connection.query("DELETE FROM users WHERE id=?",[id],(error,result)=>{
+        if(error){
+            res.status(422).json({error:"User not found"});
+        }
+        else{
+            res.status(201).json(result);
+        }
+    });
+});
+
 module.exports = router;
