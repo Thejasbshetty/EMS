@@ -33,4 +33,17 @@ router.post("/create",(req,res)=>{
     }
 });
 
+// getusers detail
+
+router.get("/getusers",(req,res)=>{
+    connection.query("SELECT * FROM users",(error,result)=>{
+        if(error){
+            res.status(422).json({error:"No data found"});
+        }
+        else{
+            res.status(201).json(result);
+        }
+    });
+});
+
 module.exports = router;
