@@ -8,46 +8,49 @@ const DepartmentList = () => {
     const { updata } = useContext(updatedata);
     const { dltdata, setDLTdata } = useContext(deldata);
 
-    const getDepartments = async () => {
+    // Fetch departments from API
+    const fetchDepartments = async () => {
         try {
             const res = await fetch("/api/departments", {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
-                }
+                    "Content-Type": "application/json",
+                },
             });
 
             if (!res.ok) {
-                throw new Error("Failed to fetch data");
+                throw new Error("Failed to fetch departments.");
             }
 
             const data = await res.json();
             setDepartments(data);
         } catch (error) {
-            console.error("Error fetching data:", error);
+            console.error("Error fetching departments:", error);
         }
     };
 
+    // Fetch departments on component mount
     useEffect(() => {
-        getDepartments();
+        fetchDepartments();
     }, []);
 
-    const deleteDepartment = async (id) => {
+    // Handle department deletion
+    const handleDeleteDepartment = async (id) => {
         try {
             const res = await fetch(`/api/deletedepartment/${id}`, {
                 method: "DELETE",
                 headers: {
-                    "Content-Type": "application/json"
-                }
+                    "Content-Type": "application/json",
+                },
             });
 
             if (!res.ok) {
-                throw new Error("Failed to delete department");
+                throw new Error("Failed to delete department.");
             }
 
             const deletedata = await res.json();
             setDLTdata(deletedata);
-            getDepartments();
+            fetchDepartments();
         } catch (error) {
             console.error("Error deleting department:", error);
         }
@@ -77,7 +80,9 @@ const DepartmentList = () => {
             <div className="mt-5">
                 <div className="container">
                     <div className="add_btn mt-2 mb-2">
-                        <NavLink to="/add-department" className="btn btn-primary">Add Department</NavLink>
+                        <NavLink to="/add-department" className="btn btn-primary">
+                            Add Department
+                        </NavLink>
                     </div>
 
                     <table className="table">
@@ -89,7 +94,7 @@ const DepartmentList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {departments.map((department, index) => (
+                            {departments.map((department) => (
                                 <tr key={department.did}>
                                     <th scope="row">{department.did}</th>
                                     <td>{department.dname}</td>
@@ -99,7 +104,10 @@ const DepartmentList = () => {
                                                 <i className="bi bi-pencil"></i>
                                             </button>
                                         </NavLink>
-                                        <button className="btn btn-danger" onClick={() => deleteDepartment(department.did)}>
+                                        <button
+                                            className="btn btn-danger"
+                                            onClick={() => handleDeleteDepartment(department.did)}
+                                        >
                                             <i className="bi bi-trash"></i>
                                         </button>
                                     </td>

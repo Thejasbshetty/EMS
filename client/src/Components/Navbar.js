@@ -1,7 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const Navbaar = () => {
+const Navbar = () => {
+    // Handle search form submission
+    const handleSearch = (e) => {
+        e.preventDefault();
+        // Add search functionality here
+        console.log('Search submitted');
+    };
+
     return (
         <header>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -33,7 +40,7 @@ const Navbaar = () => {
                                 </NavLink>
                             </li>
                         </ul>
-                        <form className="d-flex">
+                        <form className="d-flex" onSubmit={handleSearch}>
                             <input
                                 className="form-control me-2"
                                 type="search"
@@ -49,6 +56,6 @@ const Navbaar = () => {
             </nav>
         </header>
     );
-}
+};
 
-export default Navbaar;
+export default Navbar;

@@ -7,6 +7,7 @@ const DepartmentRegister = () => {
     dname: "",
   });
 
+  // Handle input changes
   const setdata = (e) => {
     const { name, value } = e.target;
     setINP((prev) => ({
@@ -15,15 +16,16 @@ const DepartmentRegister = () => {
     }));
   };
 
+  // Handle form submission
   const addDepartment = async (e) => {
     e.preventDefault();
 
     const { did, dname } = inpval;
 
     if (!did.trim()) {
-      alert("Department ID is required");
+      alert("Department ID is required.");
     } else if (!dname.trim()) {
-      alert("Department name is required");
+      alert("Department name is required.");
     } else {
       try {
         const res = await fetch("/add-department", {
@@ -38,19 +40,19 @@ const DepartmentRegister = () => {
         });
 
         if (!res.ok) {
-          throw new Error("Failed to add department");
+          throw new Error("Failed to add department.");
         }
 
         const data = await res.json();
         console.log(data);
-        alert("Department added successfully");
+        alert("Department added successfully.");
         setINP({
           did: "",
           dname: "",
         });
       } catch (error) {
         console.error("Error:", error.message);
-        alert("Error adding department");
+        alert("Error adding department.");
       }
     }
   };
@@ -60,7 +62,7 @@ const DepartmentRegister = () => {
       <NavLink to="/" className="btn btn-secondary mb-3">
         Back to Home
       </NavLink>
-      <form>
+      <form onSubmit={addDepartment}>
         <div className="row">
           <div className="col-md-6 mb-3">
             <label htmlFor="did" className="form-label">
@@ -91,11 +93,7 @@ const DepartmentRegister = () => {
             />
           </div>
           <div className="col-12">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={addDepartment}
-            >
+            <button type="submit" className="btn btn-primary">
               Submit
             </button>
           </div>
