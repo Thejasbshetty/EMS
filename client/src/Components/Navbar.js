@@ -32,7 +32,6 @@ const Navbaar = () => {
                                     Department
                                 </NavLink>
                             </li>
-                            {/* Add other navigation links here */}
                         </ul>
                         <form className="d-flex">
                             <input
