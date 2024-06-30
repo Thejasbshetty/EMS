@@ -28,7 +28,7 @@ const Navbaar = () => {
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link" activeClassName="active" exact to="/add-department">
+                                <NavLink className="nav-link" activeClassName="active" exact to="/">
                                     Department
                                 </NavLink>
                             </li>

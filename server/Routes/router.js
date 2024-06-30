@@ -115,4 +115,16 @@ router.post('/add-department', (req, res) => {
     });
 });
 
+router.get('/departments', (req, res) => {
+    connection.query('SELECT * FROM department', (error, results) => {
+        if (error) {
+            console.error("Error: " + error);
+            return res.status(500).json({ error: "Database retrieval error" });
+        } else {
+            return res.status(200).json(results);
+        }
+    });
+});
+
+
 module.exports = router;
