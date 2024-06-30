@@ -2,65 +2,67 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const DepartmentRegister = () => {
-  const [inpval, setINP] = useState({
+  const [formData, setFormData] = useState({
     did: "",
     dname: "",
   });
 
-  // Handle input changes
-  const setdata = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setINP((prev) => ({
-      ...prev,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
     }));
   };
 
-  // Handle form submission
   const addDepartment = async (e) => {
     e.preventDefault();
 
-    const { did, dname } = inpval;
+    const { did, dname } = formData;
 
     if (!did.trim()) {
       alert("Department ID is required.");
-    } else if (!dname.trim()) {
+      return;
+    }
+
+    if (!dname.trim()) {
       alert("Department name is required.");
-    } else {
-      try {
-        const res = await fetch("/add-department", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            did,
-            dname,
-          }),
-        });
+      return;
+    }
 
-        if (!res.ok) {
-          throw new Error("Failed to add department.");
-        }
+    try {
+      const res = await fetch("/add-department", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          did,
+          dname,
+        }),
+      });
 
-        const data = await res.json();
-        console.log(data);
-        alert("Department added successfully.");
-        setINP({
-          did: "",
-          dname: "",
-        });
-      } catch (error) {
-        console.error("Error:", error.message);
-        alert("Error adding department.");
+      if (!res.ok) {
+        throw new Error("Failed to add department.");
       }
+
+      const data = await res.json();
+      console.log(data);
+      alert("Department added successfully.");
+      setFormData({
+        did: "",
+        dname: "",
+      });
+    } catch (error) {
+      console.error("Error:", error.message);
+      alert("Error adding department.");
     }
   };
 
   return (
     <div className="container mt-4">
-      <NavLink to="/" className="btn btn-secondary mb-3">
-        Back to Home
+      <NavLink to="/departments" className="btn btn-secondary mb-3">
+        Back to Departments
       </NavLink>
       <form onSubmit={addDepartment}>
         <div className="row">
@@ -73,8 +75,8 @@ const DepartmentRegister = () => {
               className="form-control"
               id="did"
               name="did"
-              value={inpval.did}
-              onChange={setdata}
+              value={formData.did}
+              onChange={handleInputChange}
               required
             />
           </div>
@@ -87,8 +89,8 @@ const DepartmentRegister = () => {
               className="form-control"
               id="dname"
               name="dname"
-              value={inpval.dname}
-              onChange={setdata}
+              value={formData.dname}
+              onChange={handleInputChange}
               required
             />
           </div>

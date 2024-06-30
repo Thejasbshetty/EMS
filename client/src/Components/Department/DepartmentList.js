@@ -28,6 +28,7 @@ const DepartmentList = () => {
             setDepartments(data);
         } catch (error) {
             console.error("Error fetching departments:", error);
+            // Notify user or handle error appropriately
         }
     };
 
@@ -55,6 +56,7 @@ const DepartmentList = () => {
             fetchDepartments();
         } catch (error) {
             console.error("Error deleting department:", error);
+            // Notify user or handle error appropriately
         }
     };
 
@@ -101,7 +103,7 @@ const DepartmentList = () => {
                                     <th scope="row">{department.did}</th>
                                     <td>{department.dname}</td>
                                     <td className="d-flex justify-content-between">
-                                        <NavLink to={`updatedepartment/${department.did}`}>
+                                        <NavLink to={`/updatedepartment/${department.did}`}>
                                             <button className="btn btn-primary">
                                                 <i className="bi bi-pencil"></i>
                                             </button>

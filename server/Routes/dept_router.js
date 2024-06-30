@@ -32,6 +32,21 @@ router.get('/departments', (req, res) => {
     });
 });
 
+// individual department detail
+router.get('/department/:did', (req, res) => {
+    const { did } = req.params;
+    connection.query('SELECT * FROM department WHERE did = ?', [did], (error, result) => {
+        if (error) {
+            console.error("Error: " + error);
+            return res.status(500).json({ error: "Database retrieval error" });
+        } else if (result.length === 0) {
+            return res.status(404).json({ error: "Department not found" });
+        } else {
+            return res.status(200).json(result[0]);
+        }
+    });
+});
+
 router.delete('/deletedepartment/:id', (req, res) => {
     const { id } = req.params;
     connection.query('DELETE FROM department WHERE did = ?', [id], (error, result) => {
@@ -45,18 +60,18 @@ router.delete('/deletedepartment/:id', (req, res) => {
 });
 
 // Route to update a department
-router.put('/updatedepartment/:id', (req, res) => {
-    const { id } = req.params;
+router.put('/updatedepartment/:did', (req, res) => {
+    const { did } = req.params;
     const { dname } = req.body;
     if (!dname) {
         return res.status(422).json({ error: "Please fill all fields" });
     }
-    connection.query('UPDATE department SET dname = ? WHERE did = ?', [dname, id], (error, result) => {
+    connection.query('UPDATE department SET dname = ? WHERE did = ?', [dname, did], (error, result) => {
         if (error) {
             console.error("Error: " + error);
             return res.status(500).json({ error: "Database update error" });
         } else {
-            return res.status(200).json({ id, dname });
+            return res.status(200).json({ did, dname });
         }
     });
 });

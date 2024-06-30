@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { NavLink, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { updatedata } from './context/ContextProvider';
 
 const Edit = () => {
@@ -27,8 +27,8 @@ const Edit = () => {
                     throw new Error('Failed to fetch user data');
                 }
                 const data = await res.json();
-                if (data) {
-                    setINP(data);
+                if (data.length > 0) {
+                    setINP(data[0]);
                 } else {
                     console.log("No data found");
                 }
@@ -72,12 +72,13 @@ const Edit = () => {
             navigate("/");
         } catch (error) {
             console.error("Failed to update data:", error);
+            // Handle error state or alert user
         }
     };
 
     return (
         <div className="container">
-            <NavLink to="/">Home</NavLink>
+            {/* <NavLink to="/" style={{ textDecoration: 'none', color: 'black' }}>Home</NavLink> */}
             <form className="mt-4" onSubmit={handleSubmit}>
                 <div className="row">
                     <div className="mb-3 col-lg-6 col-md-6 col-12">

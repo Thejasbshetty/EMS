@@ -1,22 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { NavLink, useParams, useNavigate } from 'react-router-dom';
-import { updatedata } from '../context/ContextProvider';
+import { updatedata } from '../context/ContextProvider'; // Adjust the path as needed
 
 const EditDepartment = () => {
-    const { setUPdata } = useContext(updatedata);
+    const { setUPdata } = useContext(updatedata); // Ensure useContext usage is correct
     const navigate = useNavigate();
     const { id } = useParams();
 
     const [inpval, setINP] = useState({
         did: "",
-        dname: "",
-        description: "",
+        dname: ""
     });
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch(`/api/department/${id}`);
+                const res = await fetch(`/department/${id}`); // Adjust endpoint as per your backend
                 if (!res.ok) {
                     throw new Error('Failed to fetch department data');
                 }
@@ -44,18 +43,17 @@ const EditDepartment = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { did, dname, description } = inpval;
+        const { did, dname } = inpval;
 
         try {
             const res = await fetch(`/updatedepartment/${id}`, {
-                method: "PATCH",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     did,
-                    dname,
-                    description
+                    dname
                 })
             });
 
@@ -64,31 +62,30 @@ const EditDepartment = () => {
             }
 
             const data = await res.json();
-            setUPdata(data);
-            navigate("/departments");
+            setUPdata(data); // Assuming this updates some global context
+            navigate("/departments"); // Redirect to departments page
         } catch (error) {
             console.error("Failed to update data:", error);
+            // Handle error appropriately, e.g., show error message to user
         }
     };
 
     return (
         <div className="container">
-            <NavLink to="/departments">Back to Departments</NavLink>
-            <form className="mt-4" onSubmit={handleSubmit}>
+            <NavLink to="/departments" className="btn btn-secondary mb-3">Back to Departments</NavLink>
+            <form onSubmit={handleSubmit} className="mt-4">
                 <div className="row">
                     <div className="mb-3 col-lg-6 col-md-6 col-12">
                         <label htmlFor="did" className="form-label">Department ID</label>
-                        <input type="text" value={inpval.did} onChange={handleChange} name="did" className="form-control" id="did" />
+                        <input type="text" className="form-control" id="did" name="did" value={inpval.did} onChange={handleChange} />
                     </div>
                     <div className="mb-3 col-lg-6 col-md-6 col-12">
                         <label htmlFor="dname" className="form-label">Department Name</label>
-                        <input type="text" value={inpval.dname} onChange={handleChange} name="dname" className="form-control" id="dname" />
+                        <input type="text" className="form-control" id="dname" name="dname" value={inpval.dname} onChange={handleChange} />
                     </div>
-                    <div className="mb-3 col-lg-12 col-md-12 col-12">
-                        <label htmlFor="description" className="form-label">Description</label>
-                        <textarea name="description" value={inpval.description} onChange={handleChange} className="form-control" id="description" cols="30" rows="5"></textarea>
+                    <div className="col-12">
+                        <button type="submit" className="btn btn-primary">Submit</button>
                     </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>
