@@ -1,41 +1,116 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+import { adddata, deldata, updatedata } from '../context/ContextProvider';
 
 const DepartmentList = () => {
-  const [departments, setDepartments] = useState([]);
+    const [departments, setDepartments] = useState([]);
+    const { udata } = useContext(adddata);
+    const { updata } = useContext(updatedata);
+    const { dltdata, setDLTdata } = useContext(deldata);
 
-  useEffect(() => {
-    const fetchDepartments = async () => {
-      try {
-        const res = await fetch("/api/departments");
-        if (!res.ok) {
-          throw new Error("Failed to fetch departments");
+    const getDepartments = async () => {
+        try {
+            const res = await fetch("/api/departments", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (!res.ok) {
+                throw new Error("Failed to fetch data");
+            }
+
+            const data = await res.json();
+            setDepartments(data);
+        } catch (error) {
+            console.error("Error fetching data:", error);
         }
-        const data = await res.json();
-        setDepartments(data);
-      } catch (error) {
-        console.error("Error:", error.message);
-      }
     };
 
-    fetchDepartments();
-  }, []);
+    useEffect(() => {
+        getDepartments();
+    }, []);
 
-  return (
-    <div className="container mt-4">
-      <h2>Departments</h2>
-      {departments.length > 0 ? (
-        <ul className="list-group">
-          {departments.map((department) => (
-            <li key={department.did} className="list-group-item">
-              {department.dname} (ID: {department.did})
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No departments found.</p>
-      )}
-    </div>
-  );
+    const deleteDepartment = async (id) => {
+        try {
+            const res = await fetch(`/api/deletedepartment/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (!res.ok) {
+                throw new Error("Failed to delete department");
+            }
+
+            const deletedata = await res.json();
+            setDLTdata(deletedata);
+            getDepartments();
+        } catch (error) {
+            console.error("Error deleting department:", error);
+        }
+    };
+
+    return (
+        <>
+            {udata && (
+                <div className="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>{udata.dname}</strong> added successfully!
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            )}
+            {updata && (
+                <div className="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>{updata.dname}</strong> updated successfully!
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            )}
+            {dltdata && (
+                <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{dltdata.dname}</strong> deleted successfully!
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            )}
+
+            <div className="mt-5">
+                <div className="container">
+                    <div className="add_btn mt-2 mb-2">
+                        <NavLink to="/add-department" className="btn btn-primary">Add Department</NavLink>
+                    </div>
+
+                    <table className="table">
+                        <thead>
+                            <tr className="table-dark">
+                                <th scope="col">ID</th>
+                                <th scope="col">Department Name</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {departments.map((department, index) => (
+                                <tr key={department.did}>
+                                    <th scope="row">{department.did}</th>
+                                    <td>{department.dname}</td>
+                                    <td className="d-flex justify-content-between">
+                                        <NavLink to={`edit-department/${department.did}`}>
+                                            <button className="btn btn-primary">
+                                                <i className="bi bi-pencil"></i>
+                                            </button>
+                                        </NavLink>
+                                        <button className="btn btn-danger" onClick={() => deleteDepartment(department.did)}>
+                                            <i className="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </>
+    );
 };
 
 export default DepartmentList;
