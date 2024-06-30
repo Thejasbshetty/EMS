@@ -51,7 +51,6 @@ const Details = () => {
     return (
         <div className="container mt-3">
             <h1 style={{ fontWeight: 400 }}>User Details</h1>
-
             <div className="card" style={{ maxWidth: '600px' }}>
                 <div className="card-body">
                     <div className="add_btn">
@@ -74,8 +73,11 @@ const Details = () => {
                         </div>
                         <div className="right_view col-lg-6 col-md-6 col-12">
                             <p className="mt-5"><i className="bi bi-phone"></i> Mobile: <span>+91 {userData.mobile}</span></p>
-                            <p className="mt-3"><i className="bi bi-geo-alt"></i> Location: <span>{userData.add}</span></p>
-                            <p className="mt-3">Description: <span>{userData.desc}</span></p>
+                            <p className="mt-3"><i className="bi bi-geo-alt"></i> Location: <span>{userData.address}</span></p>
+                            <p className="mt-3">Description: <span>{userData.description}</span></p>
+                            <p className="mt-3">Department ID: <span>{userData.dept_id}</span></p>
+                            <p className="mt-3">Salary: <span>{userData.salary}</span></p>
+
                         </div>
                     </div>
                 </div>

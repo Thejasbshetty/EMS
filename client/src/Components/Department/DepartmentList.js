@@ -23,6 +23,8 @@ const DepartmentList = () => {
             }
 
             const data = await res.json();
+            // Sort departments by ID in ascending order
+            data.sort((a, b) => a.did - b.did);
             setDepartments(data);
         } catch (error) {
             console.error("Error fetching departments:", error);
@@ -37,7 +39,7 @@ const DepartmentList = () => {
     // Handle department deletion
     const handleDeleteDepartment = async (id) => {
         try {
-            const res = await fetch(`/api/deletedepartment/${id}`, {
+            const res = await fetch(`/deletedepartment/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -99,7 +101,7 @@ const DepartmentList = () => {
                                     <th scope="row">{department.did}</th>
                                     <td>{department.dname}</td>
                                     <td className="d-flex justify-content-between">
-                                        <NavLink to={`edit-department/${department.did}`}>
+                                        <NavLink to={`updatedepartment/${department.did}`}>
                                             <button className="btn btn-primary">
                                                 <i className="bi bi-pencil"></i>
                                             </button>

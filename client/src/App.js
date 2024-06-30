@@ -8,6 +8,7 @@ import Home from './components/Home';
 import Edit from './components/Edit';
 import AddDepartment from './components/Department/department';
 import DepartmentList from './components/Department/DepartmentList';
+import EditDepartment from './components/Department/EditDepartment';
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/add-department" element={<AddDepartment />} />
         <Route exact path="/view/:id" element={<Details />} />
         <Route exact path="/departments" element={<DepartmentList />} />
+        <Route exact path="/updatedepartment/:id" element={<EditDepartment />} />
       </Routes>
     </div>
   );

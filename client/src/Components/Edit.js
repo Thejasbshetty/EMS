@@ -14,7 +14,9 @@ const Edit = () => {
         mobile: "",
         work: "",
         add: "",
-        desc: ""
+        desc: "",
+        salary: "",
+        dept_id: ""
     });
 
     useEffect(() => {
@@ -25,8 +27,8 @@ const Edit = () => {
                     throw new Error('Failed to fetch user data');
                 }
                 const data = await res.json();
-                if (data.length > 0) {
-                    setINP(data[0]);
+                if (data) {
+                    setINP(data);
                 } else {
                     console.log("No data found");
                 }
@@ -48,7 +50,7 @@ const Edit = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { name, email, work, add, mobile, desc, age } = inpval;
+        const { name, email, work, add, mobile, desc, age, salary, dept_id } = inpval;
 
         try {
             const res = await fetch(`/updateuser/${id}`, {
@@ -57,7 +59,7 @@ const Edit = () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    name, email, work, add, mobile, desc, age
+                    name, email, work, add, mobile, desc, age, salary, dept_id
                 })
             });
 
@@ -70,7 +72,6 @@ const Edit = () => {
             navigate("/");
         } catch (error) {
             console.error("Failed to update data:", error);
-            // Handle error state or alert user
         }
     };
 
@@ -101,11 +102,19 @@ const Edit = () => {
                     </div>
                     <div className="mb-3 col-lg-6 col-md-6 col-12">
                         <label htmlFor="add" className="form-label">Address</label>
-                        <input type="text" value={inpval.add} onChange={handleChange} name="add" className="form-control" id="add" />
+                        <input type="text" value={inpval.address} onChange={handleChange} name="add" className="form-control" id="add" />
+                    </div>
+                    <div className="mb-3 col-lg-6 col-md-6 col-12">
+                        <label htmlFor="salary" className="form-label">Salary</label>
+                        <input type="text" value={inpval.salary} onChange={handleChange} name="salary" className="form-control" id="salary" />
+                    </div>
+                    <div className="mb-3 col-lg-6 col-md-6 col-12">
+                        <label htmlFor="dept_id" className="form-label">Department ID</label>
+                        <input type="text" value={inpval.dept_id} onChange={handleChange} name="dept_id" className="form-control" id="dept_id" />
                     </div>
                     <div className="mb-3 col-lg-12 col-md-12 col-12">
                         <label htmlFor="desc" className="form-label">Description</label>
-                        <textarea name="desc" value={inpval.desc} onChange={handleChange} className="form-control" id="desc" cols="30" rows="5"></textarea>
+                        <textarea name="desc" value={inpval.description} onChange={handleChange} className="form-control" id="desc" cols="30" rows="5"></textarea>
                     </div>
                     <button type="submit" className="btn btn-primary">Submit</button>
                 </div>
