@@ -6,6 +6,7 @@ import Register from "./components/Register";
 import Details from './components/Details';
 import Home from './components/Home';
 import Edit from './components/Edit';
+import AddDepartment from './components/Department/department';
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/edit/:id" element={<Edit />} />
+        <Route path="/add-department" element={<AddDepartment />} />
         <Route exact path="/view/:id" element={<Details />} />
       </Routes>
     </div>
