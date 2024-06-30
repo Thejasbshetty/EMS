@@ -11,7 +11,7 @@ const DepartmentList = () => {
     // Fetch departments from API
     const fetchDepartments = async () => {
         try {
-            const res = await fetch("/api/departments", {
+            const res = await fetch("/departments", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

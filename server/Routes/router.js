@@ -23,7 +23,7 @@ router.post("/create", (req, res) => {
                 return res.status(422).json({ error: "User already exists" });
             } else {
                 // Insert the new user into the database
-                const userData = { name, email, age, mobile, work, address, description, salary, dept_id };
+                const userData = { name, email, age, mobile, work, address, description, dept_id, salary };
                 connection.query("INSERT INTO users SET ?", userData, (error, result) => {
                     if (error) {
                         console.log("Error: " + error);
@@ -96,35 +96,7 @@ router.patch("/updateuser/:id",(req,res)=>{
     });
 });
 
-router.post('/add-department', (req, res) => {
-    const { did, dname } = req.body;
 
-    if (!did || !dname) {
-        return res.status(422).json({ error: "Please provide both department ID and name" });
-    }
-
-    const departmentData = { did, dname };
-
-    connection.query('INSERT INTO department SET ?', departmentData, (error, result) => {
-        if (error) {
-            console.error("Error: " + error);
-            return res.status(500).json({ error: "Database insertion error" });
-        } else {
-            return res.status(201).json({ message: "Department added successfully", departmentId: did });
-        }
-    });
-});
-
-router.get('/departments', (req, res) => {
-    connection.query('SELECT * FROM department', (error, results) => {
-        if (error) {
-            console.error("Error: " + error);
-            return res.status(500).json({ error: "Database retrieval error" });
-        } else {
-            return res.status(200).json(results);
-        }
-    });
-});
 
 
 module.exports = router;

@@ -57,7 +57,7 @@ const Register = () => {
     } else if (!salary.trim()) {
       alert("Salary is required");
     } else if (!dept_id.trim()) {
-      alert("Department id is required");
+      alert("Department ID is required");
     } else {
       try {
         const res = await fetch("/create", {
@@ -72,9 +72,9 @@ const Register = () => {
             address,
             mobile,
             description,
+            age,
             salary,
             dept_id,
-            age,
           }),
         });
 
@@ -196,15 +196,15 @@ const Register = () => {
             />
           </div>
           <div className="col-md-6 mb-3">
-            <label htmlFor="dept_it" className="form-label">
-              Id Department
+            <label htmlFor="dept_id" className="form-label">
+              Department ID
             </label>
             <input
               type="text"
               className="form-control"
-              id="dept_it"
-              name="dept_it"
-              value={inpval.dept_it}
+              id="dept_id"
+              name="dept_id"
+              value={inpval.dept_id}
               onChange={setdata}
               required
             />
