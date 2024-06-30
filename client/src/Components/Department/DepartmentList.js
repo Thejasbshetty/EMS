@@ -83,11 +83,19 @@ const DepartmentList = () => {
 
             <div className="mt-5">
                 <div className="container">
-                    <div className="add_btn mt-2 mb-2">
-                        <NavLink to="/add-department" className="btn btn-primary">
-                            Add Department
-                        </NavLink>
-                    </div>
+                <div className="row mt-3 mb-2">
+    <div className="col-6 d-flex justify-content-start">
+        <NavLink to="/" className="btn btn-secondary">
+            Back to Employees
+        </NavLink>
+    </div>
+    <div className="col-6 d-flex justify-content-end">
+        <NavLink to="/add-department" className="btn btn-primary">
+            Add Department
+        </NavLink>
+    </div>
+</div>
+
 
                     <table className="table">
                         <thead>
