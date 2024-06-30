@@ -78,8 +78,8 @@ router.get("/induser/:id",(req,res)=>{
 
 router.patch("/updateuser/:id",(req,res)=>{
     const id=req.params.id;
-    const {name,email,age,mobile,work,address,description}=req.body;
-    connection.query("UPDATE users SET name=?,email=?,age=?,mobile=?,work=?,address=?,description=? WHERE id=?",[name,email,age,mobile,work,address,description,id],(error,result)=>{
+    const data=req.body;
+    connection.query("UPDATE users SET ? WHERE id=?",[data,id],(error,result)=>{
         if(error){
             res.status(422).json({error:"User not found"});
         }

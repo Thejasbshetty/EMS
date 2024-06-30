@@ -1,16 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { NavLink, useParams,useNavigate } from 'react-router-dom';
-import { updatedata } from '/context/ContextProvider';
-
+import { NavLink, useParams, useNavigate } from 'react-router-dom';
+import { updatedata } from './context/ContextProvider';
 
 const Edit = () => {
-
-    // const [getuserdata, setUserdata] = useState([]);
-    // console.log(getuserdata);
-
-   const {updata, setUPdata} = useContext(updatedata)
-
-    const history = useNavigate("");
+    const { setUPdata } = useContext(updatedata);
+    const navigate = useNavigate();
+    const { id } = useParams();
 
     const [inpval, setINP] = useState({
         name: "",
@@ -20,118 +15,103 @@ const Edit = () => {
         work: "",
         add: "",
         desc: ""
-    })
-
-    const setdata = (e) => {
-        console.log(e.target.value);
-        const { name, value } = e.target;
-        setINP((preval) => {
-            return {
-                ...preval,
-                [name]: value
-            }
-        })
-    }
-
-
-    const { id } = useParams("");
-    console.log(id);
-
-
-
-    const getdata = async () => {
-
-        const res = await fetch(`/induser/${id}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-
-        const data = await res.json();
-        console.log(data);
-
-        if (res.status === 422 || !data) {
-            console.log("error ");
-
-        } else {
-            setINP(data[0])
-            console.log("get data");
-
-        }
-    }
+    });
 
     useEffect(() => {
-        getdata();
-    }, []);
+        const fetchData = async () => {
+            try {
+                const res = await fetch(`/induser/${id}`);
+                if (!res.ok) {
+                    throw new Error('Failed to fetch user data');
+                }
+                const data = await res.json();
+                if (data.length > 0) {
+                    setINP(data[0]);
+                } else {
+                    console.log("No data found");
+                }
+            } catch (error) {
+                console.error("Failed to fetch data:", error);
+            }
+        };
 
+        fetchData();
+    }, [id]);
 
-    const updateuser = async(e)=>{
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setINP((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        const { name, email, work, add, mobile, desc, age } = inpval;
 
-        const {name,email,work,add,mobile,desc,age} = inpval;
+        try {
+            const res = await fetch(`/updateuser/${id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name, email, work, add, mobile, desc, age
+                })
+            });
 
-        const res2 = await fetch(`/updateuser/${id}`,{
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body:JSON.stringify({
-                name,email,work,add,mobile,desc,age
-            })
-        });
+            if (!res.ok) {
+                throw new Error('Failed to update user');
+            }
 
-        const data2 = await res2.json();
-        console.log(data2);
-
-        if(res2.status === 422 || !data2){
-            alert("fill the data");
-        }else{
-            history.push("/")
-            setUPdata(data2);
+            const data = await res.json();
+            setUPdata(data);
+            navigate("/");
+        } catch (error) {
+            console.error("Failed to update data:", error);
+            // Handle error state or alert user
         }
-
-    }
+    };
 
     return (
         <div className="container">
-            <NavLink to="/">home2</NavLink>
-            <form className="mt-4">
+            <NavLink to="/">Home</NavLink>
+            <form className="mt-4" onSubmit={handleSubmit}>
                 <div className="row">
-                    <div class="mb-3 col-lg-6 col-md-6 col-12">
-                        <label for="exampleInputEmail1" class="form-label">Name</label>
-                        <input type="text" value={inpval.name} onChange={setdata} name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                    <div className="mb-3 col-lg-6 col-md-6 col-12">
+                        <label htmlFor="name" className="form-label">Name</label>
+                        <input type="text" value={inpval.name} onChange={handleChange} name="name" className="form-control" id="name" />
                     </div>
-                    <div class="mb-3 col-lg-6 col-md-6 col-12">
-                        <label for="exampleInputPassword1" class="form-label">email</label>
-                        <input type="email" value={inpval.email} onChange={setdata} name="email" class="form-control" id="exampleInputPassword1" />
+                    <div className="mb-3 col-lg-6 col-md-6 col-12">
+                        <label htmlFor="email" className="form-label">Email</label>
+                        <input type="email" value={inpval.email} onChange={handleChange} name="email" className="form-control" id="email" />
                     </div>
-                    <div class="mb-3 col-lg-6 col-md-6 col-12">
-                        <label for="exampleInputPassword1" class="form-label">age</label>
-                        <input type="text" value={inpval.age} onChange={setdata} name="age" class="form-control" id="exampleInputPassword1" />
+                    <div className="mb-3 col-lg-6 col-md-6 col-12">
+                        <label htmlFor="age" className="form-label">Age</label>
+                        <input type="text" value={inpval.age} onChange={handleChange} name="age" className="form-control" id="age" />
                     </div>
-                    <div class="mb-3 col-lg-6 col-md-6 col-12">
-                        <label for="exampleInputPassword1" class="form-label">Mobile</label>
-                        <input type="number" value={inpval.mobile} onChange={setdata} name="mobile" class="form-control" id="exampleInputPassword1" />
+                    <div className="mb-3 col-lg-6 col-md-6 col-12">
+                        <label htmlFor="mobile" className="form-label">Mobile</label>
+                        <input type="number" value={inpval.mobile} onChange={handleChange} name="mobile" className="form-control" id="mobile" />
                     </div>
-                    <div class="mb-3 col-lg-6 col-md-6 col-12">
-                        <label for="exampleInputPassword1" class="form-label">Work</label>
-                        <input type="text" value={inpval.work} onChange={setdata} name="work" class="form-control" id="exampleInputPassword1" />
+                    <div className="mb-3 col-lg-6 col-md-6 col-12">
+                        <label htmlFor="work" className="form-label">Work</label>
+                        <input type="text" value={inpval.work} onChange={handleChange} name="work" className="form-control" id="work" />
                     </div>
-                    <div class="mb-3 col-lg-6 col-md-6 col-12">
-                        <label for="exampleInputPassword1" class="form-label">Address</label>
-                        <input type="text" value={inpval.add} onChange={setdata} name="add" class="form-control" id="exampleInputPassword1" />
+                    <div className="mb-3 col-lg-6 col-md-6 col-12">
+                        <label htmlFor="add" className="form-label">Address</label>
+                        <input type="text" value={inpval.add} onChange={handleChange} name="add" className="form-control" id="add" />
                     </div>
-                    <div class="mb-3 col-lg-12 col-md-12 col-12">
-                        <label for="exampleInputPassword1" class="form-label">Description</label>
-                        <textarea name="desc" value={inpval.desc} onChange={setdata} className="form-control" id="" cols="30" rows="5"></textarea>
+                    <div className="mb-3 col-lg-12 col-md-12 col-12">
+                        <label htmlFor="desc" className="form-label">Description</label>
+                        <textarea name="desc" value={inpval.desc} onChange={handleChange} className="form-control" id="desc" cols="30" rows="5"></textarea>
                     </div>
-
-                    <button type="submit" onClick={updateuser} class="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>
-    )
-}
+    );
+};
 
 export default Edit;
