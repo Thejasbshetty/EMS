@@ -1,12 +1,15 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-    // Handle search form submission
-    const handleSearch = (e) => {
-        e.preventDefault();
-        // Add search functionality here
-        console.log('Search submitted');
+    const navigate = useNavigate(); // Using useNavigate hook from React Router v6
+
+    // Handle logout button click
+    const handleLogout = () => {
+        // Implement logout functionality here if needed
+        console.log('Logged out');
+        // Redirect to login page
+        navigate('/');
     };
 
     return (
@@ -16,17 +19,6 @@ const Navbar = () => {
                     <NavLink className="navbar-brand" to="/">
                         EMS
                     </NavLink>
-                    <button
-                        className="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                    >
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
@@ -35,22 +27,24 @@ const Navbar = () => {
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link" activeClassName="active" exact to="/departments">
+                                <NavLink
+                                    className="nav-link"
+                                    activeClassName="active"
+                                    exact
+                                    to="/departments"
+                                >
                                     Department
                                 </NavLink>
                             </li>
                         </ul>
-                        <form className="d-flex" onSubmit={handleSearch}>
-                            <input
-                                className="form-control me-2"
-                                type="search"
-                                placeholder="Search"
-                                aria-label="Search"
-                            />
-                            <button className="btn btn-outline-success" type="submit">
-                                Search
+                        <div className="d-flex align-items-center">
+                            <button
+                                className="btn btn-outline-danger"
+                                onClick={handleLogout}
+                            >
+                                Logout
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </nav>

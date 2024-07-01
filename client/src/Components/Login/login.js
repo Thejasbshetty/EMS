@@ -18,8 +18,8 @@ const Login = () => {
 
             if (response.status === 200) {
                 setMessage('Login successful!');
-                // Redirect to homepage after successful login
-                navigate('/home');
+                // Update authentication state or context here
+                navigate('/home'); // Redirect to homepage after successful login
             } else {
                 setMessage(response.data.message); // Assuming response contains a message field
             }
