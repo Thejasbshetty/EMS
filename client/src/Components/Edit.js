@@ -19,6 +19,8 @@ const Edit = () => {
         dept_id: ""
     });
 
+    const [error, setError] = useState(null); // State for error message
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -69,16 +71,16 @@ const Edit = () => {
 
             const data = await res.json();
             setUPdata(data);
-            navigate("/");
+            navigate("/home");
         } catch (error) {
             console.error("Failed to update data:", error);
-            // Handle error state or alert user
+            setError('Failed to update data. Please try again.'); // Set error message state
         }
     };
 
     return (
         <div className="container">
-            {/* <NavLink to="/" style={{ textDecoration: 'none', color: 'black' }}>Home</NavLink> */}
+            {error && <div className="alert alert-danger">{error}</div>} {/* Show error message */}
             <form className="mt-4" onSubmit={handleSubmit}>
                 <div className="row">
                     <div className="mb-3 col-lg-6 col-md-6 col-12">

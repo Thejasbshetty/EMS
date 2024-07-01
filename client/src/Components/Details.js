@@ -65,7 +65,7 @@ const Details = () => {
                     </div>
                     <div className="row">
                         <div className="left_view col-lg-6 col-md-6 col-12">
-                            <img src="/profile.png" style={{ width: 50 }} alt="profile" />
+                            <span className="bi bi-person-circle" style={{ fontSize: '3rem', marginRight: '1rem', verticalAlign: 'middle' }}></span>
                             <h3 className="mt-3">Name: <span>{userData.name}</span></h3>
                             <h3 className="mt-3">Age: <span>{userData.age}</span></h3>
                             <p className="mt-3"><i className="bi bi-envelope"></i> Email: <span>{userData.email}</span></p>

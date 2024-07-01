@@ -79,7 +79,7 @@ const Home = () => {
             <div className="mt-5">
                 <div className="container">
                     <div className="add_btn mt-2 mb-2">
-                        <NavLink to="/register" className="btn btn-primary">Register</NavLink>
+                        <NavLink to="/home/register" className="btn btn-primary">Register</NavLink>
                     </div>
 
                     <table className="table">

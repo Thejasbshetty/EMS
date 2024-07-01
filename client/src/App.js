@@ -32,10 +32,10 @@ function App() {
             <Routes>
             <Route exact path="/" element={<Login />} />
                 <Route exact path="/home" element={<Home />} />
-                <Route exact path="/register" element={<Register />} />
-                <Route exact path="/edit/:id" element={<Edit />} />
+                <Route exact path="/home/register" element={<Register />} />
+                <Route exact path="/home/edit/:id" element={<Edit />} />
                 <Route exact path="/add-department" element={<AddDepartment />} />
-                <Route exact path="/view/:id" element={<Details />} />
+                <Route exact path="/home/view/:id" element={<Details />} />
                 <Route exact path="/departments" element={<DepartmentList />} />
                 <Route exact path="/updatedepartment/:id" element={<EditDepartment />} />
             </Routes>
