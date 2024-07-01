@@ -12,12 +12,14 @@ import Details from './components/Details';
 import AddDepartment from './components/Department/department';
 import DepartmentList from './components/Department/DepartmentList';
 import EditDepartment from './components/Department/EditDepartment';
+import Login from './components/Login/login';
 
 function App() {
     return (
         <div>
             <Navbar />
             <Routes>
+                <Route exact path="/login" element={<Login />} />
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/register" element={<Register />} />
                 <Route exact path="/edit/:id" element={<Edit />} />
