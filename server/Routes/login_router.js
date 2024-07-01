@@ -2,6 +2,7 @@ const express = require('express');
 const router = new express.Router();
 const connection = require('../db/connection');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 
 // Middleware to parse JSON request bodies
 router.use(bodyParser.json());
@@ -34,8 +35,10 @@ router.post('/login', async (req, res) => {
             return res.status(401).send('Invalid credentials');
         }
 
+        const token = jwt.sign({ user_id: user.user_id }, 'your_secret_key', { expiresIn: '1h' });
+
         console.log('Login successful');
-        res.status(200).send('Login successful');
+        res.status(200).json({ token });
     } catch (err) {
         console.error('Server error:', err);
         res.status(500).send('Server error');
