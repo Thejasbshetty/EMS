@@ -18,13 +18,14 @@ const Login = () => {
 
             if (response.status === 200) {
                 setMessage('Login successful!');
-                navigate('/');
+                // Redirect to homepage after successful login
+                navigate('/home');
             } else {
-                setMessage(response.data);
+                setMessage(response.data.message); // Assuming response contains a message field
             }
         } catch (error) {
             if (error.response && error.response.data) {
-                setMessage(error.response.data);
+                setMessage(error.response.data.message); // Assuming response contains a message field
             } else {
                 setMessage('An error occurred. Please try again.');
             }

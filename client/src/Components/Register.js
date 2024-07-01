@@ -106,7 +106,7 @@ const Register = () => {
 
   return (
     <div className="container mt-4">
-      <NavLink to="/" className="btn btn-secondary mb-3">
+      <NavLink to="/home" className="btn btn-secondary mb-3">
         Back to Home
       </NavLink>
       <form>

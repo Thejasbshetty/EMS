@@ -85,7 +85,7 @@ const DepartmentList = () => {
                 <div className="container">
                 <div className="row mt-3 mb-2">
     <div className="col-6 d-flex justify-content-start">
-        <NavLink to="/" className="btn btn-secondary">
+        <NavLink to="/home" className="btn btn-secondary">
             Back to Employees
         </NavLink>
     </div>
